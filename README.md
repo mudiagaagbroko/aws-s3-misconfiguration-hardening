@@ -1,49 +1,123 @@
-# AWS S3 Bucket Misconfiguration & Hardening
-
-## Overview
-This project simulates a real-world AWS S3 bucket misconfiguration that resulted in public data access. The bucket was intentionally misconfigured, exploited to confirm unauthorised access, and then secured using AWS security best practices.
-
-The goal of this project is to demonstrate how common cloud storage misconfigurations can be identified, validated, and remediated using layered security controls.
+# AWS S3 Security Assessment & Hardening Case Study
 
 ---
 
-## Misconfiguration
-The S3 bucket was initially configured with public read access via a permissive bucket policy. Encryption at rest was not enabled, and access controls were insufficient, simulating a common cloud security vulnerability scenario.
+## Project Overview
+
+This project simulates a real-world AWS S3 bucket misconfiguration that resulted in unintended public data exposure.
+
+The objective of this assessment was to:
+
+- Identify insecure S3 bucket configuration
+- Validate unauthorised public access
+- Implement layered remediation controls
+- Verify logging and monitoring functionality
+
+This case study demonstrates practical cloud security assessment and remediation aligned with AWS security best practices.
 
 ---
 
-## Exploitation
-Public access was validated by attempting to retrieve objects from the bucket using unauthenticated requests. The test confirmed that objects could be accessed without authorisation, demonstrating risk of data exposure.
+## Risk Scenario
+
+The S3 bucket was intentionally configured with a permissive public-read bucket policy and lacked encryption at rest.
+
+This misconfiguration exposed stored objects to unauthenticated access via direct HTTP requests, representing a common cloud storage security vulnerability.
+
+Public S3 misconfigurations are frequently discovered by automated reconnaissance tools and can lead to large-scale data exposure.
 
 ---
 
-## Remediation
-The bucket was secured through the following actions:
-- Removed public bucket policies
-- Enabled S3 Block Public Access
-- Applied IAM least-privilege access using an EC2 role
-- Enabled KMS encryption at rest
-- Enabled CloudTrail logging for audit visibility
+## Exposure Validation
 
-Policy examples used during remediation are documented in the `policies/` directory.
+Unauthenticated object retrieval was performed to confirm public accessibility.
 
-A step-by-step remediation checklist is provided in `remediation-checklist.md`.
+Successful access to stored objects without credentials validated that the bucket was publicly exposed.
+
+#### Evidence
+
+![Public Access Proof](screenshots/public_access.png)
 
 ---
 
-## CloudTrail Logging & Verification
-CloudTrail was configured with S3 data events to audit object-level access. After
-accessing an object using the AWS CLI, the corresponding `GetObject` event was observed in the CloudTrail logs, confirming that S3 access was being recorded.
+## Business Impact
+
+If exploited in a production environment, this misconfiguration could result in:
+
+- Unauthorised disclosure of sensitive customer data  
+- Regulatory non-compliance (GDPR, PCI-DSS, HIPAA)  
+- Reputational damage  
+- Automated exploitation by cloud asset scanning bots  
+
+Cloud storage exposure remains one of the most common causes of public data breaches.
+
+---
+
+## Remediation Actions Implemented
+
+The following security controls were applied to harden the bucket:
+
+- Removed permissive bucket policies  
+- Enabled **S3 Block Public Access**  
+- Enforced least-privilege IAM access using an EC2 role  
+- Enabled **AWS KMS server-side encryption**  
+- Configured **CloudTrail data event logging** for object-level visibility  
+
+Policy examples used during remediation are available in the `policies/` directory.
+
+---
+
+## Security Architecture After Hardening
+
+The secured configuration enforces:
+
+- Account-level and bucket-level public access restrictions  
+- Role-based access control via IAM  
+- Encryption of stored objects using AWS KMS  
+- Object-level audit logging through CloudTrail  
+
+This layered approach ensures prevention, protection, and detection controls are in place.
+
+---
+
+## Monitoring & Audit Verification
+
+CloudTrail was configured to capture S3 data events, enabling object-level monitoring.
+
+Following object access activity, CloudTrail log files were successfully generated and stored in the designated logging bucket. The presence of S3 data event logs confirmed that object-level access activity was being recorded for audit and investigation purposes.
+
+#### Evidence
+
+![CloudTrail Logging Enabled](screenshots/cloudtrail_enabled.png)
+
+![CloudTrail Log Files Generated](screenshots/cloudtrail_logs.png)
 
 ---
 
 ## Lessons Learned
-This project highlights how easily cloud storage can be exposed through misconfiguration and reinforces the importance of defense-in-depth. Proper IAM access control, encryption, and logging are all required to effectively secure cloud storage services.
+
+Cloud storage misconfigurations can result in immediate and large-scale exposure if not properly governed.
+
+Effective cloud security requires:
+
+- Strict access control enforcement  
+- Encryption by default  
+- Centralised logging and monitoring  
+- Defence-in-depth security architecture  
+
+Preventive and detective controls must be implemented together to reduce risk.
 
 ---
 
-## Skills Developed
-- Mitigating S3 bucket object exposure
-- IAM and S3 resource policy hardening
-- Implementing encryption at rest with AWS KMS
-- Auditing and monitoring access using CloudTrail
+## Skills Demonstrated
+
+- S3 bucket policy analysis and remediation  
+- IAM least-privilege role configuration  
+- AWS KMS encryption implementation  
+- CloudTrail data event configuration and validation  
+- Cloud security risk assessment and mitigation  
+
+---
+
+## Disclaimer
+
+This project was conducted within a controlled AWS environment for educational and security research purposes.
