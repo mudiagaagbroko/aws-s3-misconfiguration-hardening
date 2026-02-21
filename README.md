@@ -66,19 +66,6 @@ Policy examples used during remediation are available in the `policies/` directo
 
 ---
 
-## Security Architecture After Hardening
-
-The secured configuration enforces:
-
-- Account-level and bucket-level public access restrictions  
-- Role-based access control via IAM  
-- Encryption of stored objects using AWS KMS  
-- Object-level audit logging through CloudTrail  
-
-This layered approach ensures prevention, protection, and detection controls are in place.
-
----
-
 ## Monitoring & Audit Verification
 
 CloudTrail was configured to capture S3 data events, enabling object-level monitoring.
