@@ -1,4 +1,4 @@
-# AWS S3 Security Assessment & Hardening Case Study
+# AWS S3 Security Assessment & Hardening 
 
 ---
 
